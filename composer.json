@@ -1,0 +1,22 @@
+{
+  "name": "wilgucki/crud",
+  "description": "Laravel 5 Crud Generator",
+  "keywords": ["laravel", "crud", "generator", "laravel crud generator", "crud generator", "laravel generator"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Maciej Wilgucki",
+      "email": "mwilgucki@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "laravelcollective/html": "^5.2",
+    "doctrine/dbal": "^2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wilgucki\\Csv\\": "src"
+    }
+  }
+}

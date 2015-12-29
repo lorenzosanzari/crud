@@ -1,0 +1,14 @@
+@extends('DummyLayout')
+
+@section('DummySection')
+    <table>
+        <tbody>
+DummyRow
+        </tbody>
+    </table>
+    <a href="{{ route('DummyModelRoute.index') }}">Back</a>
+    <a href="{{ route('DummyModelRoute.edit', $item) }}">Edit</a>
+    {!! Form::open(['route' => ['DummyModelRoute.destroy', $item], 'method' => 'DELETE']) !!}
+        {!! Form::submit('Delete') !!}
+    {!! Form::close() !!}
+@endsection

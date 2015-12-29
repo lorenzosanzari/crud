@@ -1,0 +1,8 @@
+@extends('DummyLayout')
+
+@section('DummySection')
+    {!! Form::model($model, ['route' => $route, 'method' => $method]) !!}
+DummyFieldset
+    {!! Form::submit('Save') !!}
+    {!! Form::close() !!}
+@endsection

@@ -1,0 +1,28 @@
+@extends('DummyLayout')
+
+@section('DummySection')
+    <a href="{{ route('DummyModelRoute.create') }}">Add</a>
+    <table>
+        <thead>
+        <tr>
+DummyHeader
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($items as $item)
+            <tr>
+DummyRow
+                <td>
+                    <a href="{{ route('DummyModelRoute.show', $item) }}">Details</a>
+                    <a href="{{ route('DummyModelRoute.edit', $item) }}">Edit</a>
+                    {!! Form::open(['route' => ['DummyModelRoute.destroy', $item], 'method' => 'DELETE']) !!}
+                        {!! Form::submit('Delete') !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    {!! $items->links() !!}
+@endsection
