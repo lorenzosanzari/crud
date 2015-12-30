@@ -13,7 +13,8 @@ class CrudGenerator extends Command
                             {--with-route : Adds route to routes.php}
                             {--controller-path= : Controller path relative to Controllers dir}
                             {--view-path= : Relative to views directory path where view files will be created}
-                            {--controller-namespace= : Use custom namespace in your controller}';
+                            {--controller-namespace= : Use custom namespace in your controller}
+                            {--model-namespace= : Custom model namespace}';
 
     protected $description = 'Generates model, migration, controller and views from given values';
 
@@ -30,7 +31,8 @@ class CrudGenerator extends Command
             'crud:model',
             [
                 'name' => $this->argument('name'),
-                '--fillable' => implode(',', $fillable)
+                '--fillable' => implode(',', $fillable),
+                '--namespace' => $this->option('model-namespace') ? $this->option('model-namespace') : null
             ]
         );
         $this->info('Done');
