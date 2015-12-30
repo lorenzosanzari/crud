@@ -41,8 +41,8 @@ class ControllerGenerator extends Command
     protected function setNamespace()
     {
         $namespace = $this->option('namespace')
-            ? $this->option('namespace')
-            : 'App\Http\Controllers';
+            ? '\\'.$this->option('namespace')
+            : '';
 
         $this->stub = str_replace('DummyNamespace', $namespace, $this->stub);
     }
@@ -75,7 +75,8 @@ class ControllerGenerator extends Command
     protected function getRoute()
     {
         $route = snake_case($this->argument('name'));
-        $controller = $this->argument('name').'Controller';
+        $controller = ($this->option('namespace') !== null ? $this->option('namespace').'\\' : '')
+            .$this->argument('name').'Controller';
         return "Route::resource('{$route}', '{$controller}');".PHP_EOL;
     }
 }
