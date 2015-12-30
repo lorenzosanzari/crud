@@ -11,7 +11,8 @@ class ViewGenerator extends Command
                             {name : Name of the view}
                             {--fields= : List of fields used in views}
                             {--layout= : Name of the layout to extend}
-                            {--content-section= : Name of the section used in yield command}';
+                            {--content-section= : Name of the section used in yield command}
+                            {--view-path= : Relative to views directory path where view files will be created}';
 
     protected $description = 'Generates views for resource controller';
 
@@ -23,6 +24,7 @@ class ViewGenerator extends Command
 
     protected $fields = [];
     protected $layout;
+    protected $path;
     protected $contentSection;
     protected $fieldTypes = [
         'bigInteger' => 'text',
@@ -56,6 +58,10 @@ class ViewGenerator extends Command
             ? $this->option('content-section')
             : 'content';
 
+        $this->path = $this->option('view-path')
+            ? DIRECTORY_SEPARATOR.$this->option('view-path').DIRECTORY_SEPARATOR
+            : DIRECTORY_SEPARATOR;
+
         $this->getStubs();
         $this->buildFieldsArray();
         $this->generateIndexView();
@@ -64,17 +70,17 @@ class ViewGenerator extends Command
 
         $viewDir = snake_case($this->argument('name'));
 
-        if (!file_exists(resource_path('views/'.$viewDir))) {
-            mkdir(resource_path('views/'.$viewDir));
+        if (!file_exists(resource_path('views'.$this->path.$viewDir))) {
+            mkdir(resource_path('views'.$this->path.$viewDir), 0777, true);
         }
 
-        $index = resource_path('views/'.$viewDir.'/index.blade.php');
+        $index = resource_path('views'.$this->path.$viewDir.'/index.blade.php');
         file_put_contents($index, $this->stubs['index']);
 
-        $show = resource_path('views/'.$viewDir.'/show.blade.php');
+        $show = resource_path('views'.$this->path.$viewDir.'/show.blade.php');
         file_put_contents($show, $this->stubs['show']);
 
-        $form = resource_path('views/'.$viewDir.'/form.blade.php');
+        $form = resource_path('views'.$this->path.$viewDir.'/form.blade.php');
         file_put_contents($form, $this->stubs['form']);
     }
 
