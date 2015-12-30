@@ -34,11 +34,11 @@ This command allows you to generate crud (controller, model and views) based on 
 
 Available options:
 
--with-route (optional) - Adds route to routes.php
--controller-path (optional) - Controller path relative to Http/Controllers dir
--view-path (optional) - Relative to views directory path where view files will be created
--controller-namespace (optional) - Use custom namespace in your controller
--model-namespace (optional) - Custom model namespace
+- with-route (optional) - Adds route to routes.php
+- controller-path (optional) - Controller path relative to Http/Controllers dir
+- view-path (optional) - Relative to views directory path where view files will be created
+- controller-namespace (optional) - Use custom namespace in your controller
+- model-namespace (optional) - Custom model namespace
 
 ###Creating Crud
 
@@ -51,12 +51,12 @@ After you run this command you will need to run migration command to create data
 
 Available options:
 
--fields (required) - Fields used by migration, model and views
--with-route (optional) - Adds route to routes.php
--controller-path (optional) - Controller path relative to Http/Controllers dir
--view-path (optional) - Relative to views directory path where view files will be created
--controller-namespace (optional) - Use custom namespace in your controller
--model-namespace (optional) - Custom model namespace
+- fields (required) - Fields used by migration, model and views
+- with-route (optional) - Adds route to routes.php
+- controller-path (optional) - Controller path relative to Http/Controllers dir
+- view-path (optional) - Relative to views directory path where view files will be created
+- controller-namespace (optional) - Use custom namespace in your controller
+- model-namespace (optional) - Custom model namespace
 
 ###Creating Model
 
