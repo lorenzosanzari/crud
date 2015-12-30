@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Wilgucki\\Csv\\": "src"
+      "Wilgucki\\Crud\\": "src"
     }
   }
 }
