@@ -54,6 +54,7 @@ class CrudGenerator extends Command
                 'name' => $this->argument('name'),
                 '--with-route' => $this->option('with-route'),
                 '--path' => $this->option('controller-path') ? $this->option('controller-path') : null,
+                '--view-path' => $this->option('view-path') ? $this->option('view-path') : null,
                 '--namespace' => $this->option('controller-namespace') ? $this->option('controller-namespace') : null
             ]
         );

@@ -11,6 +11,7 @@ class ControllerGenerator extends Command
                             {name : Name of the controller without Controller suffix}
                             {--namespace= : Use custom namespace in your controller}
                             {--path= : Controller path relative to Controllers dir}
+                            {--view-path= : Path of the view files realtive to views directory}
                             {--model= : Model name used in your controller}
                             {--with-route : Adds route to routes.php}';
 
@@ -79,6 +80,9 @@ class ControllerGenerator extends Command
             : $this->argument('name');
 
         $view = snake_case($model);
+        if ($this->option('view-path')) {
+            $view = str_replace('/', '.', $this->option('view-path')).'.'.$view;
+        }
 
         $this->stub = str_replace('DummyView', $view, $this->stub);
     }
