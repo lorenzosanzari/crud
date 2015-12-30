@@ -19,7 +19,8 @@ class ViewGenerator extends Command
     protected $stubs = [
         'index' => null,
         'form' => null,
-        'show' => null
+        'show' => null,
+        'layout' => null
     ];
 
     protected $fields = [];
@@ -74,6 +75,15 @@ class ViewGenerator extends Command
             mkdir(resource_path('views'.$this->path.$viewDir), 0777, true);
         }
 
+        if ($this->layout == 'layouts.master') {
+            if (!file_exists(resource_path('views/layouts'))) {
+                mkdir(resource_path('views/layouts'));
+            }
+            $this->generateLayout();
+            $layout = resource_path('views/layouts/master.blade.php');
+            file_put_contents($layout, $this->stubs['layout']);
+        }
+
         $index = resource_path('views'.$this->path.$viewDir.'/index.blade.php');
         file_put_contents($index, $this->stubs['index']);
 
@@ -89,6 +99,7 @@ class ViewGenerator extends Command
         $this->stubs['index'] = file_get_contents(\Config::get('crud.stub_path').'index.blade.stub');
         $this->stubs['form'] = file_get_contents(\Config::get('crud.stub_path').'form.blade.stub');
         $this->stubs['show'] = file_get_contents(\Config::get('crud.stub_path').'show.blade.stub');
+        $this->stubs['layout'] = file_get_contents(\Config::get('crud.stub_path').'master.blade.stub');
     }
 
     protected function buildFieldsArray()
@@ -101,6 +112,15 @@ class ViewGenerator extends Command
                 'type' => $fieldData[1]
             ];
         }
+    }
+
+    protected function generateLayout()
+    {
+        $this->stubs['layout'] = str_replace(
+            'DummyContentSection',
+            $this->contentSection,
+            $this->stubs['layout']
+        );
     }
 
     protected function generateIndexView()
