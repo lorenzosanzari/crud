@@ -8,7 +8,8 @@ use Illuminate\Console\Command;
 class CrudFromDbGenerator extends Command
 {
     protected $signature = 'crud:from-database
-                            {table : Database table used by crud generator}';
+                            {table : Database table used by crud generator}
+                            {--with-route : Adds route to routes.php}';
 
     protected $description = 'Generates model, controller and views based on database table';
 
@@ -37,7 +38,10 @@ class CrudFromDbGenerator extends Command
         $this->info('Generating controller...');
         Artisan::call(
             'crud:controller',
-            ['name' => $name]
+            [
+                'name' => $name,
+                '--with-route' => $this->option('with-route')
+            ]
         );
         $this->info('Done...');
 

@@ -10,7 +10,8 @@ class ControllerGenerator extends Command
     protected $signature = 'crud:controller
                             {name : Name of the controller without Controller suffix}
                             {--namespace= : Use custom namespace in your controller}
-                            {--model= : Model name used in your controller}';
+                            {--model= : Model name used in your controller}
+                            {--with-route : Adds route to routes.php}';
 
     protected $description = 'Generates resource controller';
 
@@ -25,6 +26,11 @@ class ControllerGenerator extends Command
         $this->setViewName();
 
         file_put_contents(app_path('Http/Controllers/'.$this->argument('name').'Controller.php'), $this->stub);
+
+        if ($this->option('with-route')) {
+            $route = $this->getRoute();
+            file_put_contents(app_path('Http/routes.php'), $route, FILE_APPEND);
+        }
     }
 
     protected function getStub()
@@ -64,5 +70,12 @@ class ControllerGenerator extends Command
         $view = snake_case($model);
 
         $this->stub = str_replace('DummyView', $view, $this->stub);
+    }
+
+    protected function getRoute()
+    {
+        $route = snake_case($this->argument('name'));
+        $controller = $this->argument('name').'Controller';
+        return "Route::resource('{$route}', '{$controller}');".PHP_EOL;
     }
 }
