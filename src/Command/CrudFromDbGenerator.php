@@ -9,7 +9,8 @@ class CrudFromDbGenerator extends Command
 {
     protected $signature = 'crud:from-database
                             {table : Database table used by crud generator}
-                            {--with-route : Adds route to routes.php}';
+                            {--with-route : Adds route to routes.php}
+                            {--controller-path= : Controller path relative to Controllers dir}';
 
     protected $description = 'Generates model, controller and views based on database table';
 
@@ -40,7 +41,8 @@ class CrudFromDbGenerator extends Command
             'crud:controller',
             [
                 'name' => $name,
-                '--with-route' => $this->option('with-route')
+                '--with-route' => $this->option('with-route'),
+                '--path' => $this->option('controller-path') ? $this->option('controller-path') : null
             ]
         );
         $this->info('Done...');

@@ -10,7 +10,8 @@ class CrudGenerator extends Command
     protected $signature = 'crud:generate
                             {name : Name of the model, controller and }
                             {--fields= : Fields for migration, model and views}
-                            {--with-route : Adds route to routes.php}';
+                            {--with-route : Adds route to routes.php}
+                            {--controller-path= : Controller path relative to Controllers dir}';
 
     protected $description = 'Generates model, migration, controller and views from given values';
 
@@ -47,7 +48,8 @@ class CrudGenerator extends Command
             'crud:controller',
             [
                 'name' => $this->argument('name'),
-                '--with-route' => $this->option('with-route')
+                '--with-route' => $this->option('with-route'),
+                '--path' => $this->option('controller-path') ? $this->option('controller-path') : null
             ]
         );
         $this->info('Done...');

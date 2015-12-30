@@ -10,6 +10,7 @@ class ControllerGenerator extends Command
     protected $signature = 'crud:controller
                             {name : Name of the controller without Controller suffix}
                             {--namespace= : Use custom namespace in your controller}
+                            {--path= : Controller path relative to Controllers dir}
                             {--model= : Model name used in your controller}
                             {--with-route : Adds route to routes.php}';
 
@@ -25,7 +26,17 @@ class ControllerGenerator extends Command
         $this->setModelName();
         $this->setViewName();
 
-        file_put_contents(app_path('Http/Controllers/'.$this->argument('name').'Controller.php'), $this->stub);
+        $path = $this->option('path');
+        $controllerPath = 'Http/Controllers/';
+        if ($path !== null) {
+            $controllerPath .= $path.'/';
+        }
+
+        if (!file_exists(app_path($controllerPath))) {
+            mkdir(app_path($controllerPath), 0777, true);
+        }
+
+        file_put_contents(app_path($controllerPath.$this->argument('name').'Controller.php'), $this->stub);
 
         if ($this->option('with-route')) {
             $route = $this->getRoute();
