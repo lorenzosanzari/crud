@@ -10,7 +10,8 @@ class CrudFromDbGenerator extends Command
     protected $signature = 'crud:from-database
                             {table : Database table used by crud generator}
                             {--with-route : Adds route to routes.php}
-                            {--controller-path= : Controller path relative to Controllers dir}';
+                            {--controller-path= : Controller path relative to Controllers dir}
+                            {--view-path= : Relative to views directory path where view files will be created}';
 
     protected $description = 'Generates model, controller and views based on database table';
 
@@ -52,7 +53,8 @@ class CrudFromDbGenerator extends Command
             'crud:view',
             [
                 'name' => $name,
-                '--fields' => implode(',', $fields)
+                '--fields' => implode(',', $fields),
+                '--path' => $this->option('view-path') ? $this->option('view-path') : null
             ]
         );
         $this->info('Done');

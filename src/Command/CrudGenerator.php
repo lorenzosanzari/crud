@@ -11,7 +11,8 @@ class CrudGenerator extends Command
                             {name : Name of the model, controller and }
                             {--fields= : Fields for migration, model and views}
                             {--with-route : Adds route to routes.php}
-                            {--controller-path= : Controller path relative to Controllers dir}';
+                            {--controller-path= : Controller path relative to Controllers dir}
+                            {--view-path= : Relative to views directory path where view files will be created}';
 
     protected $description = 'Generates model, migration, controller and views from given values';
 
@@ -59,7 +60,8 @@ class CrudGenerator extends Command
             'crud:view',
             [
                 'name' => $this->argument('name'),
-                '--fields' => $this->option('fields')
+                '--fields' => $this->option('fields'),
+                '--path' => $this->option('view-path') ? $this->option('view-path') : null
             ]
         );
         $this->info('Done');

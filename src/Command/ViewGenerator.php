@@ -12,7 +12,7 @@ class ViewGenerator extends Command
                             {--fields= : List of fields used in views}
                             {--layout= : Name of the layout to extend}
                             {--content-section= : Name of the section used in yield command}
-                            {--view-path= : Relative to views directory path where view files will be created}';
+                            {--path= : Relative to views directory path where view files will be created}';
 
     protected $description = 'Generates views for resource controller';
 
@@ -59,8 +59,8 @@ class ViewGenerator extends Command
             ? $this->option('content-section')
             : 'content';
 
-        $this->path = $this->option('view-path')
-            ? DIRECTORY_SEPARATOR.$this->option('view-path').DIRECTORY_SEPARATOR
+        $this->path = $this->option('path')
+            ? DIRECTORY_SEPARATOR.$this->option('path').DIRECTORY_SEPARATOR
             : DIRECTORY_SEPARATOR;
 
         $this->getStubs();
