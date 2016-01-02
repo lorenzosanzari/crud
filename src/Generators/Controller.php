@@ -32,6 +32,9 @@ class Controller extends Generator
             $this->model = $model;
             $rc = new \ReflectionClass($model);
             $this->modelClass = $rc->getShortName();
+        } else {
+            $this->model = 'App\\'.$this->name;
+            $this->modelClass = $this->name;
         }
         return $this;
     }
