@@ -13,6 +13,7 @@ class CrudGenerator extends Command
                             {--with-route : Adds route to routes.php}
                             {--controller-path= : Controller path relative to Controllers dir}
                             {--view-path= : Relative to views directory path where view files will be created}
+                            {--model-path= : Relative to app directory}
                             {--controller-namespace= : Use custom namespace in your controller}
                             {--model-namespace= : Custom model namespace}';
 
@@ -32,7 +33,8 @@ class CrudGenerator extends Command
             [
                 'name' => $this->argument('name'),
                 '--fillable' => implode(',', $fillable),
-                '--namespace' => $this->option('model-namespace') ? $this->option('model-namespace') : null
+                '--namespace' => $this->option('model-namespace') ? $this->option('model-namespace') : null,
+                '--path' => $this->option('model-path') ? $this->option('model-path') : null
             ]
         );
         $this->info('Done');
@@ -55,7 +57,10 @@ class CrudGenerator extends Command
                 '--with-route' => $this->option('with-route'),
                 '--path' => $this->option('controller-path') ? $this->option('controller-path') : null,
                 '--view-path' => $this->option('view-path') ? $this->option('view-path') : null,
-                '--namespace' => $this->option('controller-namespace') ? $this->option('controller-namespace') : null
+                '--namespace' => $this->option('controller-namespace') ? $this->option('controller-namespace') : null,
+                '--model' => $this->option('model-namespace')
+                    ? $this->option('model-namespace').'\\'.$this->argument('name')
+                    : null
             ]
         );
         $this->info('Done...');

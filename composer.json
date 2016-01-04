@@ -1,7 +1,7 @@
 {
   "name": "wilgucki/crud",
   "description": "Laravel 5 Crud Generator",
-  "keywords": ["laravel", "crud", "generator", "laravel crud generator", "crud generator", "laravel generator"],
+  "keywords": ["laravel", "crud", "generator", "laravel crud generator", "crud generator", "laravel generator", "laravel crud"],
   "license": "MIT",
   "authors": [
     {

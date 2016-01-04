@@ -4,6 +4,7 @@ namespace Wilgucki\Crud\Command;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Command;
+use Wilgucki\Crud\Generators\Model;
 
 class ModelGenerator extends Command
 {
@@ -11,7 +12,8 @@ class ModelGenerator extends Command
                             {name : Model name}
                             {--table= : Name of the database table}
                             {--fillable= : List of fillable fileds}
-                            {--namespace= : Custom namespace}';
+                            {--namespace= : Custom namespace}
+                            {--path= : Relative to app directory}';
 
     protected $description = 'Generates model';
 
@@ -19,53 +21,12 @@ class ModelGenerator extends Command
 
     public function handle()
     {
-        $this->getStub();
-        $this->setNamespace();
-        $this->setClass();
-        $this->setTableName();
-        $this->setFillable();
-
-        file_put_contents(app_path($this->argument('name').'.php'), $this->stub);
-    }
-
-    protected function getStub()
-    {
-        $this->stub = file_get_contents(\Config::get('crud.stub_path').'model.stub');
-    }
-
-    protected function setNamespace()
-    {
-        $namespace = $this->option('namespace')
-            ? $this->option('namespace')
-            : 'App';
-
-        $this->stub = str_replace('DummyNamespace', $namespace, $this->stub);
-    }
-
-    protected function setClass()
-    {
-        $this->stub = str_replace('DummyClass', $this->argument('name'), $this->stub);
-    }
-
-    protected function setTableName()
-    {
-        $table = $this->option('table')
-            ? $this->option('table')
-            : str_plural(snake_case($this->argument('name')));
-
-        $this->stub = str_replace('DummyTable', $table, $this->stub);
-    }
-
-    protected function setFillable()
-    {
-        $fillable = [];
-        if ($this->option('fillable') !== null) {
-            $fs = explode(',', $this->option('fillable'));
-            foreach ($fs as $f) {
-                $fillable[] = "'".trim($f)."'";
-            }
-        }
-
-        $this->stub = str_replace('DummyFillable', implode(', ', $fillable), $this->stub);
+        $generator = new Model();
+        $generator->setName($this->argument('name'))
+            ->setTable($this->option('table'))
+            ->setFillable($this->option('fillable'))
+            ->setNamespace($this->option('namespace'))
+            ->setPath($this->option('path'))
+            ->generate();
     }
 }

@@ -5,13 +5,13 @@ namespace App\Http\ControllersDummyNamespace;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\DummyModel;
+use DummyModelNamespace;
 
 class DummyClassController extends Controller
 {
     public function index()
     {
-        $items = DummyModel::paginate(20);
+        $items = DummyModelClass::paginate(20);
         return view('DummyView.index', ['items' => $items]);
     }
 
@@ -22,50 +22,50 @@ class DummyClassController extends Controller
             [
                 'model' => null,
                 'method' => 'POST',
-                'route' => 'DummyView.store'
+                'route' => 'DummyRoute.store'
             ]
         );
     }
 
     public function store(Request $request)
     {
-        DummyModel::create($request->all());
-        return redirect()->route('DummyView.index')
-            ->with('flash_message', 'DummyModel created');
+        DummyModelClass::create($request->all());
+        return redirect()->route('DummyRoute.index')
+            ->with('flash_message', 'DummyModelClass created');
     }
 
     public function show($id)
     {
-        $item = DummyModel::findOrFail($id);
+        $item = DummyModelClass::findOrFail($id);
         return view('DummyView.show', ['item' => $item]);
     }
 
     public function edit($id)
     {
-        $item = DummyModel::findOrFail($id);
+        $item = DummyModelClass::findOrFail($id);
         return view(
             'DummyView.form',
             [
                 'model' => $item,
                 'method' => 'PUT',
-                'route' => ['DummyView.update', $item]
+                'route' => ['DummyRoute.update', $item]
             ]
         );
     }
 
     public function update(Request $request, $id)
     {
-        $item = DummyModel::findOrFail($id);
+        $item = DummyModelClass::findOrFail($id);
         $item->update($request->all());
-        return redirect()->route('DummyView.index')
-            ->with('flash_message', 'DummyModel updated');
+        return redirect()->route('DummyRoute.index')
+            ->with('flash_message', 'DummyModelClass updated');
     }
 
     public function destroy($id)
     {
-        $item = DummyModel::findOrFail($id);
+        $item = DummyModelClass::findOrFail($id);
         $item->delete();
-        return redirect()->route('DummyView.index')
-            ->with('flash_message', 'DummyModel deleted');
+        return redirect()->route('DummyRoute.index')
+            ->with('flash_message', 'DummyModelClass deleted');
     }
 }
