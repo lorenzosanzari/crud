@@ -15,7 +15,7 @@ Next add service provider to app.php config file.
 
     'providers' => [
         //... 
-        Wilgucki\Csv\CrudServiceProvider::class,
+        Wilgucki\Crud\CrudServiceProvider::class,
     ]
 
 Last step is to publish package files with command
