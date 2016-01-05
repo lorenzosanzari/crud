@@ -161,6 +161,9 @@ class View extends Generator
             $row .= str_repeat(' ', 8).'<fieldset>'.PHP_EOL;
             $row .= str_repeat(' ', 12).'{!! Form::label(\''.$field['name'].'\') !!}'.PHP_EOL;
             $row .= str_repeat(' ', 12).$this->getField($field['name'], $field['type']).PHP_EOL;
+            $row .= str_repeat(' ', 12).'@if ($errors->has(\''.$field['name'].'\'))'.PHP_EOL;
+            $row .= str_repeat(' ', 16).'<p>{{ $errors->first(\''.$field['name'].'\') }}</p>'.PHP_EOL;
+            $row .= str_repeat(' ', 12).'@endif'.PHP_EOL;
             $row .= str_repeat(' ', 8).'</fieldset>'.PHP_EOL;
         }
         return $row;
