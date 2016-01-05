@@ -20,7 +20,11 @@ class CrudServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../stubs/' => base_path('resources/crud/stubs/'),
+            __DIR__.'/../config/generator.php' => resource_path('crud/generator.php')
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../stubs/' => resource_path('crud/stubs/'),
         ], 'stub');
     }
 
@@ -62,11 +66,18 @@ class CrudServiceProvider extends ServiceProvider
             }
         );
 
+        $this->app['command.crud.from-file'] = $this->app->share(
+            function ($app) {
+                return new CrudFromFileGenerator();
+            }
+        );
+
         $this->commands('command.crud.model');
         $this->commands('command.crud.controller');
         $this->commands('command.crud.migration');
         $this->commands('command.crud.view');
         $this->commands('command.crud.generate');
         $this->commands('command.crud.from-database');
+        $this->commands('command.crud.from-file');
     }
 }
