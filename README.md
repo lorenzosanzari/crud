@@ -30,7 +30,7 @@ This is the first release of Crud package and it needs a lot of testing and even
 
 4\. Publish package files with command
 
-<code>php artisan vendor:publish --provider=Wilgucki\\Crud\\CrudServiceProvider</code>
+<code>php artisan vendor:publish --provider=Wilgucki\\\Crud\\\CrudServiceProvider</code>
 
 ##Usage
 
