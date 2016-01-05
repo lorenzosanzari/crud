@@ -14,7 +14,8 @@ class ControllerGenerator extends Command
                             {--path= : Controller path relative to Controllers dir}
                             {--view-path= : Path of the view files realtive to views directory}
                             {--model= : Model used in your controller}
-                            {--with-route : Adds route to routes.php}';
+                            {--with-route : Adds route to routes.php}
+                            {--validator= : Validator rules}';
 
     protected $description = 'Generates resource controller';
 
@@ -27,6 +28,7 @@ class ControllerGenerator extends Command
             ->setViewPath($this->option('view-path'))
             ->setModel($this->option('model'))
             ->setWithRoute($this->option('with-route'))
+            ->setValidator($this->option('validator'))
             ->generate();
     }
 }

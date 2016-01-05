@@ -3,7 +3,7 @@
 namespace App\Http\ControllersDummyNamespace;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use DummyRequestNamespace;
 use App\Http\Controllers\Controller;
 use DummyModelNamespace;
 
@@ -27,7 +27,7 @@ class DummyClassController extends Controller
         );
     }
 
-    public function store(Request $request)
+    public function store(DummyRequest $request)
     {
         DummyModelClass::create($request->all());
         return redirect()->route('DummyRoute.index')
@@ -53,7 +53,7 @@ class DummyClassController extends Controller
         );
     }
 
-    public function update(Request $request, $id)
+    public function update(DummyRequest $request, $id)
     {
         $item = DummyModelClass::findOrFail($id);
         $item->update($request->all());

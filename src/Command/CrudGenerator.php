@@ -10,6 +10,7 @@ class CrudGenerator extends Command
     protected $signature = 'crud:generate
                             {name : Name of the model, controller and }
                             {--fields= : Fields for migration, model and views}
+                            {--validator= : Validator rules}
                             {--with-route : Adds route to routes.php}
                             {--controller-path= : Controller path relative to Controllers dir}
                             {--view-path= : Relative to views directory path where view files will be created}
@@ -60,7 +61,8 @@ class CrudGenerator extends Command
                 '--namespace' => $this->option('controller-namespace') ? $this->option('controller-namespace') : null,
                 '--model' => $this->option('model-namespace')
                     ? $this->option('model-namespace').'\\'.$this->argument('name')
-                    : null
+                    : null,
+                '--validator' => $this->option('validator') ? $this->option('validator') : null
             ]
         );
         $this->info('Done...');

@@ -28,7 +28,7 @@ Laravel Crud Generator offers few artisan commands that will speed up your work.
 
 ###Creating Crud From Database Table
 
-<code>php artisan crud:from-database table_name --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --with-route</code>
+<code>php artisan crud:from-database table_name --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --validator=name:'required|unique:users',email:'required|email' --with-route</code>
 
 This command allows you to generate crud (controller, model and views) based on specified table.
 
@@ -39,10 +39,11 @@ Available options:
 - view-path (optional) - Relative to views directory path where view files will be created
 - controller-namespace (optional) - Use custom namespace in your controller
 - model-namespace (optional) - Custom model namespace
+- validator (optional) - Validator rules field_name:rules. Remember to put your rules in apostrophe sign (') 
 
 ###Creating Crud
 
-<code>php artisan crud:generate SomeName --fields=name:string,description:text,is_public:boolean,added_at:dateTime --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --with-route</code>
+<code>php artisan crud:generate SomeName --fields=name:string,description:text,is_public:boolean,added_at:dateTime --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --validator=name:'required|unique:users',email:'required|email' --with-route</code>
 
 Crud:generate command will create model, controller, migration and views files based on given name and fileds.
 After you run this command you will need to run migration command to create database table.
@@ -57,6 +58,7 @@ Available options:
 - view-path (optional) - Relative to views directory path where view files will be created
 - controller-namespace (optional) - Use custom namespace in your controller
 - model-namespace (optional) - Custom model namespace
+- validator (optional) - Validator rules field_name:rules. Remember to put your rules in apostrophe sign (')
 
 ###Creating Model
 
