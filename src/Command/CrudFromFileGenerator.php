@@ -79,6 +79,9 @@ class CrudFromFileGenerator extends Command
             if (isset($config['view']['layout'])) {
                 $options['--layout'] = $config['view']['layout'];
             }
+            if (isset($config['view']['theme'])) {
+                $options['--theme'] = $config['view']['theme'];
+            }
         }
     }
 

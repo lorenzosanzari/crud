@@ -13,7 +13,8 @@ class ViewGenerator extends Command
                             {--fields= : List of fields used in views}
                             {--layout= : Name of the layout to extend}
                             {--content-section= : Name of the section used in yield command}
-                            {--path= : Relative to views directory path where view files will be created}';
+                            {--path= : Relative to views directory path where view files will be created}
+                            {--theme= : View theme}';
 
     protected $description = 'Generates views for resource controller';
 
@@ -25,6 +26,7 @@ class ViewGenerator extends Command
             ->setLayout($this->option('layout'))
             ->setContentSection($this->option('content-section'))
             ->setPath($this->option('path'))
+            ->setTheme($this->option('theme'))
             ->generate();
     }
 }

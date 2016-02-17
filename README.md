@@ -46,7 +46,7 @@ Laravel Crud Generator offers new artisan commands that will speed up your work.
 
 ###Creating Crud From Database Table
 
-<code>php artisan crud:from-database table_name --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --model-path=Models --validator=name:'required|unique:users',email:'required|email' --with-route</code>
+<code>php artisan crud:from-database table_name --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --model-path=Models --validator=name:'required|unique:users',email:'required|email' --with-route  --theme=bootstrap</code>
 
 This command allows you to generate crud based on specified database table.
 
@@ -57,6 +57,7 @@ Available options:
 - controller-namespace (optional) - Use custom namespace in your controller
 - view-path (optional) - Relative to views directory path where view files will be created
 - layout (optional) - extend custom layout. Default value - layouts.master (generator will create this file)
+- theme (optional) - View theme
 - model-namespace (optional) - Custom model namespace
 - model-path (optional) - Relative to app directory
 - validator (optional) - Validator rules field_name:rules. Remember to put your rules in apostrophe sign (') 
@@ -90,7 +91,8 @@ Structure of generator file:
             ],
             'view' => [
                 'layout' => 'layouts.admin',
-                'path' => 'admin'
+                'path' => 'admin',
+                'theme' => 'bootstrap'
             ],
             'with-route' => true
         ]
@@ -109,11 +111,12 @@ Structure of generator file:
 - view (optional)
     - layout (optional) - extend custom layout. Default value - layouts.master (generator will create this file)
     - path (optional) - use this option if you want to place your views deeper in directory structure
+    - theme (optional) - view theme
 - with-route (optional) - using this option will create resource route in routes.php file
 
 ###Creating Crud
 
-<code>php artisan crud:generate SomeName --fields=name:string,description:text,is_public:boolean,added_at:dateTime --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --model-path=Models --validator=name:'required|unique:users',email:'required|email' --with-route</code>
+<code>php artisan crud:generate SomeName --fields=name:string,description:text,is_public:boolean,added_at:dateTime --controller-path=Admin --controller-namespace=Admin --view-path=admin --model-namespace=App\Models --model-path=Models --validator=name:'required|unique:users',email:'required|email' --with-route  --theme=bootstrap</code>
 
 Crud:generate command will create model, controller, migration and views files based on given name and fileds.
 After you run this command you will need to run migration command to create database table.
@@ -131,6 +134,7 @@ Available options:
 - model-path (optional) - Relative to app directory
 - validator (optional) - Validator rules field_name:rules. Remember to put your rules in apostrophe sign (')
 - layout (optional) - extend custom layout. Default value - layouts.master (generator will create this file)
+- theme (optional) - View theme
 
 ###Creating Controller
 
@@ -163,7 +167,7 @@ You can generate model using above command. You need to specify model name. Rema
 
 ###Creating Views
 
-<code>php artisan crud:view SomeName --fields=name:string,description:text,added_at:dateTime --layout=layouts.blog.master --content-section=page_content --path=admin</code>
+<code>php artisan crud:view SomeName --fields=name:string,description:text,added_at:dateTime --layout=layouts.blog.master --content-section=page_content --path=admin --theme=bootstrap</code>
 
 Last but not least - generating views. To generate view you need to pass view name as well as list of fields.
 You can find field types in [official Laravel documentation](https://laravel.com/docs/5.2/migrations#creating-columns).
@@ -172,12 +176,28 @@ Other options are:
 - layout  (optional) - extend custom layout. Default value - layouts.master (generator will create this file)
 - content-section (optional)- name of the blade section where view will be generated. Default value - content
 - path  (optional) - use this option if you want to place your views deeper in directory structure
+- theme (optional) - View theme
+
+##Stubs
+
+Stubs are templates used to populate generated files. When you run
+<code>php artisan vendor:publish --provider=Wilgucki\\\Crud\\\CrudServiceProvider</code>
+command, these files are copied to resources/crud/stubs directory.
+By default crud generator uses default directory to get templates. If you want to use different theme you can do it with --theme option.
+For now you can choose only bootstrap as theme. I will add new themes soon.
+
+###Custom stubs and themes
+
+If prepadred stubs are missing something you need in your application, you can easily modify them. To do so, create new folder under
+resources/crud/stubs directory and copy all files you need to change. Make your changes and use generator with theme option.
+You don't need to copy all files to your custom theme - generator will use stubs from default for missing files.
+
+Don't mess with placeholders starting from _Dummy_. These placeholders are used to populate custom data like class names, namespaces,
+views and few other important things. If you remove or change them, generated code could (and probably will) be invalid.
 
 ##TODO (custom order)
 
 - rewrite generators and stubs to use more user friendly variables (instead of $item)
 - test this package against Laravel 5.1
 - improve README, check for typos and other errors
-- add, as option, Bootstrap
-- add description of stubs and how to customize them
 - allow to define actions generated by controller generator

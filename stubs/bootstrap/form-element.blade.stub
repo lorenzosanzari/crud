@@ -1,0 +1,7 @@
+<fieldset class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
+    {!! Form::label($name) !!}
+    {!! $field !!}
+    @if ($errors->has($name))
+        <p>{{ $errors->first($name) }}</p>
+    @endif
+</fieldset>

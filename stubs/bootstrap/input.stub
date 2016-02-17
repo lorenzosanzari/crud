@@ -1,0 +1,1 @@
+Form::DummyType('DummyName', null, ['class' => 'form-control'])

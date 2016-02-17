@@ -1,0 +1,7 @@
+<fieldset>
+    {!! Form::label($name) !!}
+    {!! $field !!}
+    @if ($errors->has($name))
+        <p>{{ $errors->first($name) }}</p>
+    @endif
+</fieldset>

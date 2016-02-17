@@ -22,7 +22,8 @@ return [
         ],
         'view' => [
             'layout' => 'layouts.admin',
-            'path' => 'admin'
+            'path' => 'admin',
+            'theme' => 'bootstrap'
         ],
         'with-route' => true
     ]

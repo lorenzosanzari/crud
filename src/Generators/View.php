@@ -5,15 +5,21 @@ namespace Wilgucki\Crud\Generators;
 class View extends Generator
 {
     const STUB_LAYOUT = 'master.blade.stub';
+    const STUB_PARTIAL_FORM_ELEMENT = 'form-element.blade.stub';
+    const STUB_PARTIAL_INPUT = 'input.stub';
+    const STUB_PARTIAL_RADIO = 'boolean.stub';
     const STUB_INDEX = 'index.blade.stub';
     const STUB_SHOW = 'show.blade.stub';
     const STUB_FORM = 'form.blade.stub';
 
     protected $layout = 'layouts.master';
     protected $contentSection = 'content';
+    protected $path;
+    protected $theme = 'default';
 
     protected $fieldTypes = [
         'bigInteger' => 'text',
+        'boolean' => 'radio',
         'char' => 'text',
         'date' => 'text',
         'dateTime' => 'text',
@@ -60,12 +66,20 @@ class View extends Generator
         return $this;
     }
 
+    public function setTheme($theme)
+    {
+        if ($theme) {
+            $this->theme = $theme;
+        }
+        return $this;
+    }
+
     public function getIndexHeader()
     {
         $header = '';
         foreach ($this->fields as $field) {
             $header .= str_repeat(' ', 12);
-            $header .= '<td>'.ucwords(str_replace('_', ' ', $field['name'])).'</td>'.PHP_EOL;
+            $header .= '<th>'.ucwords(str_replace('_', ' ', $field['name'])).'</th>'.PHP_EOL;
         }
         return $header;
     }
@@ -90,7 +104,7 @@ class View extends Generator
         foreach ($this->fields as $field) {
             $row .= str_repeat(' ', 12).'<tr>'.PHP_EOL;
             $row .= str_repeat(' ', 16).'<td>'. ucwords(str_replace('_', ' ', $field['name'])).'</td>'.PHP_EOL;
-            $row .= str_repeat(' ', 16).'<td>{{$item->'.$field['name'].'}}</td>'.PHP_EOL;
+            $row .= str_repeat(' ', 16).'<td>{{ $item->'.$field['name'].' }}</td>'.PHP_EOL;
             $row .= str_repeat(' ', 12).'</tr>'.PHP_EOL;
         }
         return $row;
@@ -101,6 +115,7 @@ class View extends Generator
         if ($this->layout == 'layouts.master') {
             $this->generateLayout();
         }
+        $this->generatePartials();
         $this->generateIndex();
         $this->generateShow();
         $this->generateForm();
@@ -111,18 +126,29 @@ class View extends Generator
         $content = str_replace(
             ['DummyContentSection'],
             [$this->contentSection],
-            $this->getStubContent(self::STUB_LAYOUT)
+            $this->getStubContent(self::STUB_LAYOUT, $this->theme)
         );
 
         $this->createFile('master.blade.php', resource_path('views/layouts'), $content, true);
+    }
+
+    protected function generatePartials()
+    {
+        $this->createFile(
+            'form-element.blade.php',
+            resource_path('views/partials'),
+            $this->getStubContent(self::STUB_PARTIAL_FORM_ELEMENT, $this->theme),
+            true
+        );
     }
 
     protected function generateIndex()
     {
         $content = str_replace(
             ['DummyHeader', 'DummyRow', 'DummyModelRoute', 'DummyLayout', 'DummySection'],
-            [$this->getIndexHeader(), $this->getIndexRow(), snake_case($this->name), $this->layout, $this->contentSection],
-            $this->getStubContent(self::STUB_INDEX)
+            [$this->getIndexHeader(), $this->getIndexRow(), snake_case($this->name),
+                $this->layout, $this->contentSection],
+            $this->getStubContent(self::STUB_INDEX, $this->theme)
         );
 
         $viewDir = $this->getViewDir();
@@ -134,7 +160,7 @@ class View extends Generator
         $content = str_replace(
             ['DummyRow', 'DummyModelRoute', 'DummyLayout', 'DummySection'],
             [$this->getShowRow(), snake_case($this->name), $this->layout, $this->contentSection],
-            $this->getStubContent(self::STUB_SHOW)
+            $this->getStubContent(self::STUB_SHOW, $this->theme)
         );
 
         $viewDir = $this->getViewDir();
@@ -146,7 +172,7 @@ class View extends Generator
         $content = str_replace(
             ['DummyFieldset', 'DummyLayout', 'DummySection'],
             [$this->getFieldset(), $this->layout, $this->contentSection],
-            $this->getStubContent(self::STUB_FORM)
+            $this->getStubContent(self::STUB_FORM, $this->theme)
         );
 
         $viewDir = $this->getViewDir();
@@ -158,13 +184,11 @@ class View extends Generator
     {
         $row = '';
         foreach ($this->fields as $field) {
-            $row .= str_repeat(' ', 8).'<fieldset>'.PHP_EOL;
-            $row .= str_repeat(' ', 12).'{!! Form::label(\''.$field['name'].'\') !!}'.PHP_EOL;
-            $row .= str_repeat(' ', 12).$this->getField($field['name'], $field['type']).PHP_EOL;
-            $row .= str_repeat(' ', 12).'@if ($errors->has(\''.$field['name'].'\'))'.PHP_EOL;
-            $row .= str_repeat(' ', 16).'<p>{{ $errors->first(\''.$field['name'].'\') }}</p>'.PHP_EOL;
-            $row .= str_repeat(' ', 12).'@endif'.PHP_EOL;
-            $row .= str_repeat(' ', 8).'</fieldset>'.PHP_EOL;
+            $row .= str_repeat(' ', 8);
+            $row .= "@include('partials.form-element',";
+            $row .= "['name' => '{$field['name']}', 'type' => '{$field['type']}',";
+            $row .= "'field' => {$this->getField($field['name'], $field['type'])}]";
+            $row .= ")".PHP_EOL;
         }
         return $row;
     }
@@ -178,12 +202,16 @@ class View extends Generator
     {
         switch ($type) {
             case 'boolean':
-                $formField  = '<label>{!! Form::radio(\''.$name.'\', 0, true) !!} No</label>';
-                $formField .= '<label>{!! Form::radio(\''.$name.'\', 1) !!} Yes</label>';
+                $content = $this->getStubContent(self::STUB_PARTIAL_RADIO, $this->theme);
                 break;
             default:
-                $formField = '{!! Form::'.$this->getFormFieldType($type).'(\''.$name.'\') !!}';
+                $content = $this->getStubContent(self::STUB_PARTIAL_INPUT, $this->theme);
         }
+        $formField = str_replace(
+            ['DummyType', 'DummyName'],
+            [$this->getFormFieldType($type), $name],
+            $content
+        );
         return $formField;
     }
 }

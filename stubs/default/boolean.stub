@@ -1,0 +1,1 @@
+"<label>".Form::DummyType('DummyName', 0, true)."No</label><label>".Form::DummyType('DummyName', 1)."Yes</label>"

@@ -15,6 +15,7 @@ class CrudGenerator extends Command
                             {--controller-path= : Controller path relative to Controllers dir}
                             {--view-path= : Relative to views directory path where view files will be created}
                             {--layout= : Name of the layout to extend}
+                            {--theme= : View theme}
                             {--model-path= : Relative to app directory}
                             {--controller-namespace= : Use custom namespace in your controller}
                             {--model-namespace= : Custom model namespace}';
@@ -75,7 +76,8 @@ class CrudGenerator extends Command
                 'name' => $this->argument('name'),
                 '--fields' => $this->option('fields'),
                 '--path' => $this->option('view-path') ? $this->option('view-path') : null,
-                '--layout' => $this->option('layout') ? $this->option('layout') : null
+                '--layout' => $this->option('layout') ? $this->option('layout') : null,
+                '--theme' => $this->option('theme') ? $this->option('theme') : null
             ]
         );
         $this->info('Done');

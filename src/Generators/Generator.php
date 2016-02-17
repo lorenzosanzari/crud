@@ -42,9 +42,15 @@ abstract class Generator
         return $this;
     }
 
-    protected function getStubContent($stub)
+    protected function getStubContent($stub, $theme = null)
     {
-        return file_get_contents(\Config::get('crud.stub_path').$stub);
+        if ($theme !== null && file_exists(\Config::get('crud.stub_path').$theme.'/'.$stub)) {
+            $path = $theme.'/';
+        } else {
+            $path = 'default/';
+        }
+
+        return file_get_contents(\Config::get('crud.stub_path').$path.$stub);
     }
 
     protected function createFile($name, $path, $content, $createDir = false)
