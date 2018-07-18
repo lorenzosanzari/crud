@@ -11,65 +11,56 @@ use Wilgucki\Crud\Command\MigrationGenerator;
 use Wilgucki\Crud\Command\ModelGenerator;
 use Wilgucki\Crud\Command\ViewGenerator;
 
-class CrudServiceProvider extends ServiceProvider
-{
-    public function boot()
-    {
+class CrudServiceProvider extends ServiceProvider {
+
+    public function boot() {
         $this->publishes([
-            __DIR__.'/../config/crud.php' => config_path('crud.php')
-        ], 'config');
+            __DIR__ . '/../config/crud.php' => config_path('crud.php')
+                ], 'config');
 
         $this->publishes([
-            __DIR__.'/../config/generator.php' => resource_path('crud/generator.php')
-        ], 'config');
+            __DIR__ . '/../config/generator.php' => resource_path('crud/generator.php')
+                ], 'config');
 
         $this->publishes([
             __DIR__ . '/../stubs/' => resource_path('crud/stubs/'),
-        ], 'stub');
+                ], 'stub');
     }
 
-    public function register()
-    {
-        $this->app['command.crud.model'] = $this->app->share(
-            function ($app) {
-                return new ModelGenerator();
-            }
+    public function register() {
+        $this->app->singleton('command.crud.model', function ($app) {
+            return new ModelGenerator();
+        }
         );
 
-        $this->app['command.crud.controller'] = $this->app->share(
-            function ($app) {
-                return new ControllerGenerator();
-            }
+        $this->app->singleton('command.crud.controller', function ($app) {
+            return new ControllerGenerator();
+        }
         );
 
-        $this->app['command.crud.migration'] = $this->app->share(
-            function ($app) {
-                return new MigrationGenerator();
-            }
+        $this->app->singleton('command.crud.migration', function ($app) {
+            return new MigrationGenerator();
+        }
         );
 
-        $this->app['command.crud.view'] = $this->app->share(
-            function ($app) {
-                return new ViewGenerator();
-            }
+        $this->app->singleton('command.crud.view', function ($app) {
+            return new ViewGenerator();
+        }
         );
 
-        $this->app['command.crud.generate'] = $this->app->share(
-            function ($app) {
-                return new CrudGenerator();
-            }
+        $this->app->singleton('command.crud.generate', function ($app) {
+            return new CrudGenerator();
+        }
         );
 
-        $this->app['command.crud.from-database'] = $this->app->share(
-            function ($app) {
-                return new CrudFromDbGenerator();
-            }
+        $this->app->singleton('command.crud.from-database', function ($app) {
+            return new CrudFromDbGenerator();
+        }
         );
 
-        $this->app['command.crud.from-file'] = $this->app->share(
-            function ($app) {
-                return new CrudFromFileGenerator();
-            }
+        $this->app->singleton('command.crud.from-file', function ($app) {
+            return new CrudFromFileGenerator();
+        }
         );
 
         $this->commands('command.crud.model');
@@ -80,4 +71,5 @@ class CrudServiceProvider extends ServiceProvider
         $this->commands('command.crud.from-database');
         $this->commands('command.crud.from-file');
     }
+
 }
